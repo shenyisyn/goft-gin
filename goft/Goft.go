@@ -1,10 +1,9 @@
-package lib
+package goft
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
-	"mygin/src/funcs"
 )
 
 type Goft struct {
@@ -20,7 +19,7 @@ func Ignite() *Goft { //这就是所谓的构造函数，ignite有 发射、燃�
 	config := InitConfig()
 	g.beanFactory.setBean(config) //整个配置加载进bean中
 	if config.Server.Html != "" {
-		g.FuncMap = funcs.FuncMap
+
 		g.LoadHTMLGlob(config.Server.Html)
 	}
 	return g

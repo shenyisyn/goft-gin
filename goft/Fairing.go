@@ -1,4 +1,4 @@
-package lib
+package goft
 
 import "github.com/gin-gonic/gin"
 
