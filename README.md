@@ -8,7 +8,7 @@ go get -u github.com/shenyisyn/goft-gin@v0.2.2
  控制器、简易依赖注入、中间件、表达式、任务组件等。
  
  后续功能正在发布中,因此**可能有较大改动**
-## 使用视频
+## 使用视频(不定期更新)
 ### 第一章：控制器
 * [第1讲:控制器的使用：返回String和JSON](http://www.jtthink.com/course/play/2784)
 直接开门见山。先讲下控制器的使用
