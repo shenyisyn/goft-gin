@@ -54,7 +54,11 @@ func (this *Goft) Handle(httpMethod, relativePath string, handler interface{}) *
 }
 func (this *Goft) HandleWithFairing(httpMethod, relativePath string, handler interface{}, fairings ...Fairing) *Goft {
 	if h := Convert(handler); h != nil {
-		getInnerRouter().addRoute(httpMethod, "/"+this.currentGroup+relativePath, fairings) //for future
+		g := "/" + this.currentGroup
+		if g == "/" {
+			g = ""
+		}
+		getInnerRouter().addRoute(httpMethod, g+relativePath, fairings) //for future
 		this.g.Handle(httpMethod, relativePath, h)
 	}
 	return this
