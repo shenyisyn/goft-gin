@@ -38,7 +38,7 @@ type StringResponder func(*gin.Context) string
 
 func (this StringResponder) RespondTo() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		context.String(200, HandleFairing(this, context).(string))
+		context.String(200, getFairingHandler().handlerFairing(this, context).(string))
 	}
 }
 
@@ -47,7 +47,7 @@ type JsonResponder func(*gin.Context) Json
 
 func (this JsonResponder) RespondTo() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		context.JSON(200, HandleFairing(this, context))
+		context.JSON(200, getFairingHandler().handlerFairing(this, context))
 	}
 }
 

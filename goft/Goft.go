@@ -4,17 +4,31 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
+	"sync"
 )
+
+var innerRouter *GoftTree // inner tree node . backup httpmethod and path
+var innerRouter_once sync.Once
+
+func getInnerRouter() *GoftTree {
+	innerRouter_once.Do(func() {
+		innerRouter = NewGoftTree()
+	})
+	return innerRouter
+}
 
 type Goft struct {
 	*gin.Engine
-	g           *gin.RouterGroup // 保存 group对象
-	beanFactory *BeanFactory
-	exprData    map[string]interface{}
+	g            *gin.RouterGroup // 保存 group对象
+	beanFactory  *BeanFactory
+	exprData     map[string]interface{}
+	currentGroup string // temp-var for group string
 }
 
 func Ignite() *Goft {
-	g := &Goft{Engine: gin.New(), beanFactory: NewBeanFactory(), exprData: map[string]interface{}{}}
+	g := &Goft{Engine: gin.New(), beanFactory: NewBeanFactory(),
+		exprData: map[string]interface{}{},
+	}
 	g.Use(ErrorHandler()) //强迫加载的异常处理中间件
 	config := InitConfig()
 	g.beanFactory.setBean(config) //整个配置加载进bean中
@@ -33,6 +47,14 @@ func (this *Goft) Launch() {
 }
 func (this *Goft) Handle(httpMethod, relativePath string, handler interface{}) *Goft {
 	if h := Convert(handler); h != nil {
+		getInnerRouter().addRoute(httpMethod, relativePath, h) // for future
+		this.g.Handle(httpMethod, relativePath, h)
+	}
+	return this
+}
+func (this *Goft) HandleWithFairing(httpMethod, relativePath string, handler interface{}, fairings ...Fairing) *Goft {
+	if h := Convert(handler); h != nil {
+		getInnerRouter().addRoute(httpMethod, "/"+this.currentGroup+relativePath, fairings) //for future
 		this.g.Handle(httpMethod, relativePath, h)
 	}
 	return this
@@ -55,6 +77,7 @@ func (this *Goft) Beans(beans ...Bean) *Goft {
 func (this *Goft) Mount(group string, classes ...IClass) *Goft {
 	this.g = this.Group(group)
 	for _, class := range classes {
+		this.currentGroup = group
 		class.Build(this)
 		this.beanFactory.inject(class)
 		this.Beans(class)
