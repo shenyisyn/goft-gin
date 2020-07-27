@@ -19,7 +19,7 @@ func (this *TestFairing) OnRequest(ctx *gin.Context) error {
 }
 func (this *TestFairing) OnResponse(ret interface{}) (interface{}, error) {
 	if str, ok := ret.(string); ok {
-		str = "aaaa" + str
+		str = "test_" + str
 		return str, nil
 	}
 	return ret, nil

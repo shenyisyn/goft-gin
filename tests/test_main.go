@@ -8,8 +8,7 @@ import (
 
 func main() {
 	goft.Ignite().
-		Attach(fairing.NewIndexFairing(), fairing.NewTestFairing(), fairing.NewTokenFairing()).
-		Mount("v1", NewIndexClass()).//控制器，挂载到v1
-
+		Attach(fairing.NewGlobalFairing()).
+		Mount("v1", NewIndexClass()). //控制器，挂载到v1
 		Launch()
 }

@@ -1,8 +1,8 @@
 package fairing
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
 type IndexFairing struct{}
@@ -12,13 +12,15 @@ func NewIndexFairing() *IndexFairing {
 }
 
 func (this *IndexFairing) OnRequest(ctx *gin.Context) error {
-	ctx.Set("name", "shenyi")
-	log.Println("index fairing")
+	if v, exists := ctx.Get("name"); exists {
+		v = fmt.Sprintf("%v,this is index name")
+		ctx.Set("name", v)
+	}
 	return nil
 }
 func (this *IndexFairing) OnResponse(ret interface{}) (interface{}, error) {
 	if str, ok := ret.(string); ok {
-		str = "this is " + str
+		str = str + "_index"
 		return str, nil
 	}
 
