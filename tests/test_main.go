@@ -9,6 +9,6 @@ import (
 func main() {
 	goft.Ignite().
 		Attach(fairing.NewGlobalFairing()).
-		Mount("v1", NewIndexClass()). //控制器，挂载到v1
+		Mount("", NewIndexClass()). //控制器，挂载到v1
 		Launch()
 }
