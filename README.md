@@ -19,6 +19,14 @@ go get -u github.com/shenyisyn/goft-gin@v0.3.1
 * [第3讲:中间件的使用(2)：修改响应内容](http://www.jtthink.com/course/play/2786)
 当执行完成控制器方法后进行响应值的修改
 
+* [第4讲:路由级的中间件(1):基本使用](http://www.jtthink.com/course/play/2787)
+原生gin的中间件无法定位到具体的URL。改造后目前支持路由级的中间件，支持绑定具体的URL进行中间件执行
+
+* [第5讲:路由级的中间件(2):参数验证和业务分离（上）](http://www.jtthink.com/course/play/2797)
+今天顺便做个例子，请求控制的业务代码常规来讲应该怎么写
+
+* [第6讲:路由级的中间件(2):参数验证和业务分离（下）](http://www.jtthink.com/course/play/2798)
+今天我们把业务代码和参数验证进行分离，原理也是使用路由级中间件来完成
 ## License
 © jtthink, 2020~time.Now
 Released under the [Apache License 2.0](https://github.com/shenyisyn/goft-gin/blob/master/LICENSE)
