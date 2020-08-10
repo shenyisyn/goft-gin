@@ -3,9 +3,15 @@ package goft
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/shenyisyn/goft-ioc"
 	"log"
+	"reflect"
 	"sync"
 )
+
+type Bean interface {
+	Name() string
+}
 
 var innerRouter *GoftTree // inner tree node . backup httpmethod and path
 var innerRouter_once sync.Once
@@ -20,18 +26,17 @@ func getInnerRouter() *GoftTree {
 type Goft struct {
 	*gin.Engine
 	g            *gin.RouterGroup // 保存 group对象
-	beanFactory  *BeanFactory
 	exprData     map[string]interface{}
 	currentGroup string // temp-var for group string
 }
 
 func Ignite() *Goft {
-	g := &Goft{Engine: gin.New(), beanFactory: NewBeanFactory(),
+	g := &Goft{Engine: gin.New(),
 		exprData: map[string]interface{}{},
 	}
 	g.Use(ErrorHandler()) //强迫加载的异常处理中间件
 	config := InitConfig()
-	g.beanFactory.setBean(config) //整个配置加载进bean中
+	Injector.BeanFactory.Set(config) // add global into (new)BeanFactory
 	if config.Server.Html != "" {
 		g.LoadHTMLGlob(config.Server.Html)
 	}
@@ -39,9 +44,10 @@ func Ignite() *Goft {
 }
 func (this *Goft) Launch() {
 	var port int32 = 8080
-	if config := this.beanFactory.GetBean(new(SysConfig)); config != nil {
+	if config := Injector.BeanFactory.Get((*SysConfig)(nil)); config != nil {
 		port = config.(*SysConfig).Server.Port
 	}
+	this.applyAll()
 	getCronTask().Start()
 	this.Run(fmt.Sprintf(":%d", port))
 }
@@ -73,9 +79,20 @@ func (this *Goft) Attach(f ...Fairing) *Goft {
 func (this *Goft) Beans(beans ...Bean) *Goft {
 	for _, bean := range beans {
 		this.exprData[bean.Name()] = bean
+		Injector.BeanFactory.Set(bean)
 	}
-	this.beanFactory.setBean(beans...)
 	return this
+}
+func (this *Goft) Config(cfgs ...interface{}) *Goft {
+	Injector.BeanFactory.Config(cfgs...)
+	return this
+}
+func (this *Goft) applyAll() {
+	for t, v := range Injector.BeanFactory.GetBeanMapper() {
+		if t.Elem().Kind() == reflect.Struct {
+			Injector.BeanFactory.Apply(v.Interface())
+		}
+	}
 }
 
 func (this *Goft) Mount(group string, classes ...IClass) *Goft {
@@ -83,7 +100,7 @@ func (this *Goft) Mount(group string, classes ...IClass) *Goft {
 	for _, class := range classes {
 		this.currentGroup = group
 		class.Build(this)
-		this.beanFactory.inject(class)
+		//this.beanFactory.inject(class)
 		this.Beans(class)
 	}
 	return this

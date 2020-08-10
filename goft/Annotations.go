@@ -2,6 +2,7 @@ package goft
 
 import (
 	"fmt"
+	"github.com/shenyisyn/goft-ioc"
 	"reflect"
 	"strings"
 )
@@ -29,8 +30,7 @@ func init() {
 }
 
 type Value struct {
-	tag         reflect.StructTag
-	Beanfactory *BeanFactory
+	tag reflect.StructTag
 }
 
 func (this *Value) SetTag(tag reflect.StructTag) {
@@ -42,7 +42,7 @@ func (this *Value) String() string {
 		return ""
 	}
 	prefix := strings.Split(get_prefix, ".")
-	if config := this.Beanfactory.GetBean(new(SysConfig)); config != nil {
+	if config := Injector.BeanFactory.Get((*SysConfig)(nil)); config != nil {
 		get_value := GetConfigValue(config.(*SysConfig).Config, prefix, 0)
 		if get_value != nil {
 			return fmt.Sprintf("%v", get_value)

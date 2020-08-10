@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/shenyisyn/goft-gin/goft"
+	"github.com/shenyisyn/goft-gin/tests/Services"
 	"github.com/shenyisyn/goft-gin/tests/fairing"
 )
 
 type IndexClass struct {
+	MyTest *Services.TestService `inject:"-"`
 }
 
 func NewIndexClass() *IndexClass {
@@ -16,6 +18,7 @@ func NewIndexClass() *IndexClass {
 func (this *IndexClass) GetIndex(ctx *gin.Context) string {
 	//goft.Throw("aaa",500,ctx)
 	//fmt.Println(ctx.Request.URL.Query())
+	this.MyTest.Naming.ShowName()
 	return "IndexClass"
 }
 func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
