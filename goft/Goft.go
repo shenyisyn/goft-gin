@@ -37,6 +37,7 @@ func Ignite() *Goft {
 	g.Use(ErrorHandler()) //强迫加载的异常处理中间件
 	config := InitConfig()
 	Injector.BeanFactory.Set(config) // add global into (new)BeanFactory
+	Injector.BeanFactory.Set(NewGPAUtil())
 	if config.Server.Html != "" {
 		g.LoadHTMLGlob(config.Server.Html)
 	}
