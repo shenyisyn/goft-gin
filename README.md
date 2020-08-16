@@ -27,6 +27,16 @@ go get -u github.com/shenyisyn/goft-gin@v0.3.3
 
 * [第6讲:路由级的中间件(2):参数验证和业务分离（下）](http://www.jtthink.com/course/play/2798)
 今天我们把业务代码和参数验证进行分离，原理也是使用路由级中间件来完成
+
+----------------------------你们要的ORM来了
+* [第7讲:依赖注入和ORM 使用 (Gorm)](http://www.jtthink.com/course/play/2799)
+重写了IoC。实现控制器注入，并演示ORM注入的方式
+
+* [第8讲:ORM执行简化:直接返回SQL语句(GORM)](http://www.jtthink.com/course/play/2829)
+目前支持在控制器中直接返回SQL，即可自动JSON输出
+
+* [第9讲:ORM执行简化:控制器直接返回SQL语句(XORM)](http://www.jtthink.com/course/play/2830)
+上节课我们注入GORM。假设你不想使用GORM。那么今天提供XORM的适配器写法
 ## License
 © jtthink, 2020~time.Now
 Released under the [Apache License 2.0](https://github.com/shenyisyn/goft-gin/blob/master/LICENSE)

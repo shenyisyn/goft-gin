@@ -15,6 +15,7 @@ func get_responder_list() []Responder {
 			(JsonResponder)(nil),
 			(ViewResponder)(nil),
 			(SqlResponder)(nil),
+			(SqlQueryResponder)(nil),
 		}
 	})
 	return responderList
@@ -52,13 +53,25 @@ func (this JsonResponder) RespondTo() gin.HandlerFunc {
 	}
 }
 
-type SimpleQuery string
+type SqlQueryResponder func(*gin.Context) Query
+
+func (this SqlQueryResponder) RespondTo() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		getQuery := getFairingHandler().handlerFairing(this, context).(Query)
+		ret, err := queryForMapsByInterface(getQuery)
+		if err != nil {
+			panic(err)
+		}
+		context.JSON(200, ret)
+	}
+}
+
 type SqlResponder func(*gin.Context) SimpleQuery
 
 func (this SqlResponder) RespondTo() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		getSql := getFairingHandler().handlerFairing(this, context).(SimpleQuery)
-		ret, err := queryForMaps(string(getSql))
+		ret, err := queryForMaps(string(getSql), nil, []interface{}{}...)
 		if err != nil {
 			panic(err)
 		}

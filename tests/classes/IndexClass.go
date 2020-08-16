@@ -23,14 +23,23 @@ func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
 	fmt.Println("name is", ctx.PostForm("name"))
 	return NewDataModel(101, "wfew")
 }
-func (this *IndexClass) TestSql(ctx *gin.Context) goft.SimpleQuery {
-	return "select * from users"
+func (this *IndexClass) TestUsers(ctx *gin.Context) goft.Query {
+	return goft.SimpleQuery("select * from users").WithMapping(map[string]string{
+		"user_name": "uname",
+	}).WithFirst()
+}
+func (this *IndexClass) TestUserDetail(ctx *gin.Context) goft.Query {
+	return goft.SimpleQuery("select * from users where user_id=?").
+		WithArgs(ctx.Param("id")).WithMapping(map[string]string{
+		"aaf": "gg",
+	}).WithFirst()
 }
 
 func (this *IndexClass) Build(goft *goft.Goft) {
 	goft.HandleWithFairing("GET", "/",
 		this.GetIndex, fairing.NewIndexFairing()).
-		Handle("GET", "/sql", this.TestSql).
+		Handle("GET", "/users", this.TestUsers).
+		Handle("GET", "/users/:id", this.TestUserDetail).
 		Handle("POST", "/test", this.Test)
 }
 func (this *IndexClass) Name() string {

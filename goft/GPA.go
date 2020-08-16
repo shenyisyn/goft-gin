@@ -2,6 +2,7 @@ package goft
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/shenyisyn/goft-ioc"
 )
 
@@ -41,17 +42,47 @@ func DBMap(columns []string, rows *sql.Rows) ([]interface{}, error) {
 	return allRows, nil
 }
 
-func queryForMaps(sql string) ([]interface{}, error) {
+func queryForMapsByInterface(query Query) (interface{}, error) {
+	ret, err := queryForMaps(query.Sql(), query.Mapping(), query.Args()...)
+	if err != nil {
+		panic(err)
+	}
+	if query.First() && ret != nil && len(ret) > 0 {
+		return ret[0], nil
+	}
+	return ret, nil
+}
+func queryForMaps(sql string, mapping map[string]string, args ...interface{}) ([]interface{}, error) {
 	gpa_bean := Injector.BeanFactory.Get((*GPAUtil)(nil)).(*GPAUtil)
 	if gpa_bean.GDB == nil {
 		panic("found no GPA-Object")
 	}
-
-	rows, err := gpa_bean.GDB.DB().Query(sql)
+	stmt, err := gpa_bean.GDB.DB().Prepare(sql)
+	defer stmt.Close()
+	if err != nil {
+		panic(fmt.Errorf("sql-error:%s", err.Error()))
+	}
+	rows, err := stmt.Query(args...)
 	defer rows.Close()
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("sqlquery-error:%s", err.Error()))
 	}
-	cols, _ := rows.Columns()
-	return DBMap(cols, rows)
+	cols, err := rows.Columns()
+	if err != nil {
+		panic(fmt.Errorf("sqlcolumn-error:%s", err.Error()))
+	}
+	if mapping != nil && len(mapping) > 0 {
+		newCols := []string{}
+		for _, col := range cols {
+			if v, ok := mapping[col]; ok {
+				newCols = append(newCols, v)
+			} else {
+				newCols = append(newCols, col)
+			}
+		}
+		return DBMap(newCols, rows)
+	} else {
+		return DBMap(cols, rows)
+	}
+
 }
