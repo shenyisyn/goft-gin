@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/shenyisyn/goft-gin/goft"
-	"github.com/shenyisyn/goft-gin/tests/Configuration"
-	"github.com/shenyisyn/goft-gin/tests/classes"
-	"github.com/shenyisyn/goft-gin/tests/fairing"
+	"github.com/shenyisyn/goft-gin/tests/internal/Configuration"
+	"github.com/shenyisyn/goft-gin/tests/internal/classes"
+	"github.com/shenyisyn/goft-gin/tests/internal/fairing"
 )
 
 func main() {

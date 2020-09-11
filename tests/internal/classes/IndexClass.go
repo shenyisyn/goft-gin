@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/shenyisyn/goft-gin/goft"
-	"github.com/shenyisyn/goft-gin/tests/Services"
-	"github.com/shenyisyn/goft-gin/tests/fairing"
+	"github.com/shenyisyn/goft-gin/tests/internal/Services"
+	"github.com/shenyisyn/goft-gin/tests/internal/fairing"
 )
 
 type IndexClass struct {
@@ -26,13 +26,15 @@ func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
 func (this *IndexClass) TestUsers(ctx *gin.Context) goft.Query {
 	return goft.SimpleQuery("select * from users").WithMapping(map[string]string{
 		"user_name": "uname",
-	}).WithFirst()
+	}).WithKey("result")
 }
-func (this *IndexClass) TestUserDetail(ctx *gin.Context) goft.Query {
-	return goft.SimpleQuery("select * from users where user_id=?").
+func (this *IndexClass) TestUserDetail(ctx *gin.Context) goft.Json {
+	ret := goft.SimpleQuery("select * from users where user_id=?").
 		WithArgs(ctx.Param("id")).WithMapping(map[string]string{
-		"aaf": "gg",
-	}).WithFirst()
+		"usr": "user",
+	}).WithFirst().WithKey("result").Get()
+	fmt.Printf("%T", ret.(gin.H)["result"].(map[string]interface{}))
+	return ret
 }
 
 func (this *IndexClass) Build(goft *goft.Goft) {

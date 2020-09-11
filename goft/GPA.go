@@ -3,6 +3,7 @@ package goft
 import (
 	"database/sql"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/shenyisyn/goft-ioc"
 	"reflect"
 	"strconv"
@@ -63,15 +64,21 @@ func DBMap(columns []string, rows *sql.Rows) ([]interface{}, error) {
 	return allRows, nil
 }
 
+func wrapResult(query Query, ret interface{}) interface{} {
+	if query.Key() != "" {
+		return gin.H{query.Key(): ret}
+	}
+	return ret
+}
 func queryForMapsByInterface(query Query) (interface{}, error) {
 	ret, err := queryForMaps(query.Sql(), query.Mapping(), query.Args()...)
 	if err != nil {
 		panic(err)
 	}
 	if query.First() && ret != nil && len(ret) > 0 {
-		return ret[0], nil
+		return wrapResult(query, ret[0]), nil
 	}
-	return ret, nil
+	return wrapResult(query, ret), nil
 }
 func queryForMaps(sql string, mapping map[string]string, args ...interface{}) ([]interface{}, error) {
 	gpa_bean := Injector.BeanFactory.Get((*GPAUtil)(nil)).(*GPAUtil)

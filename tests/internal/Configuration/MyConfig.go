@@ -2,7 +2,7 @@ package Configuration
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/shenyisyn/goft-gin/tests/Services"
+	"github.com/shenyisyn/goft-gin/tests/internal/Services"
 	"log"
 )
 
