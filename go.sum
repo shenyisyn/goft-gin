@@ -53,6 +53,7 @@ github.com/shenyisyn/goft-ioc v0.5.2 h1:NLtjLAymyckZruaQ1IawNcdDj3K2pr2E+w1z9l3X
 github.com/shenyisyn/goft-ioc v0.5.2/go.mod h1:4M6oyKxaJF3gY2Jl/dbL7vYr0H6E3FAVviF6GMj92as=
 github.com/shenyisyn/goft-ioc v0.5.3 h1:QJsgqjL6w99D4DKZ1CMR5oXAlVrEar1Q2Dt/iKxpuvk=
 github.com/shenyisyn/goft-ioc v0.5.3/go.mod h1:4M6oyKxaJF3gY2Jl/dbL7vYr0H6E3FAVviF6GMj92as=
+github.com/shenyisyn/goft-ioc v0.5.4/go.mod h1:4M6oyKxaJF3gY2Jl/dbL7vYr0H6E3FAVviF6GMj92as=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
