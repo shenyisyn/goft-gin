@@ -3,7 +3,7 @@ module github.com/shenyisyn/goft-gin
 go 1.14
 
 require (
-	github.com/antlr/antlr4 v0.0.0-20200801005519-2ba38605b949 // indirect
+	github.com/antlr/antlr4 v0.0.0-20201020194047-0a7eaede42b0 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/jinzhu/gorm v1.9.15
 	github.com/robfig/cron/v3 v3.0.1
