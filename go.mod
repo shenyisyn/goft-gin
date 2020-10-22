@@ -9,5 +9,4 @@ require (
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/shenyisyn/goft-ioc v0.5.3
 	gopkg.in/yaml.v2 v2.2.8
-
 )
