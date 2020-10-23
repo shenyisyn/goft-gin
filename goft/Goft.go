@@ -73,6 +73,9 @@ func (this *Goft) HandleWithFairing(httpMethod, relativePath string, handler int
 
 // 注册中间件
 func (this *Goft) Attach(f ...Fairing) *Goft {
+	for _, f1 := range f {
+		Injector.BeanFactory.Set(f1)
+	}
 	getFairingHandler().AddFairing(f...)
 	return this
 }

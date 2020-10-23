@@ -25,6 +25,7 @@ func NewFairingHandler() *FairingHandler {
 
 func (this *FairingHandler) AddFairing(f ...Fairing) {
 	if f != nil && len(f) > 0 {
+
 		this.fairings = append(this.fairings, f...)
 	}
 
