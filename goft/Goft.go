@@ -6,6 +6,7 @@ import (
 	"github.com/shenyisyn/goft-ioc"
 	"log"
 	"reflect"
+	"strings"
 	"sync"
 )
 
@@ -54,18 +55,23 @@ func (this *Goft) Launch() {
 }
 func (this *Goft) Handle(httpMethod, relativePath string, handler interface{}) *Goft {
 	if h := Convert(handler); h != nil {
-		getInnerRouter().addRoute(httpMethod, relativePath, h) // for future
+		getInnerRouter().addRoute(httpMethod, this.getPath(relativePath), h) // for future
 		this.g.Handle(httpMethod, relativePath, h)
 	}
 	return this
 }
+func (this *Goft) getPath(relativePath string) string {
+	g := "/" + this.currentGroup
+	if g == "/" {
+		g = ""
+	}
+	g = g + relativePath
+	g = strings.Replace(g, "//", "/", -1)
+	return g
+}
 func (this *Goft) HandleWithFairing(httpMethod, relativePath string, handler interface{}, fairings ...Fairing) *Goft {
 	if h := Convert(handler); h != nil {
-		g := "/" + this.currentGroup
-		if g == "/" {
-			g = ""
-		}
-		getInnerRouter().addRoute(httpMethod, g+relativePath, fairings) //for future
+		getInnerRouter().addRoute(httpMethod, this.getPath(relativePath), fairings) //for future
 		this.g.Handle(httpMethod, relativePath, h)
 	}
 	return this
