@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+
 	goft.Ignite().
 		Config(Configuration.NewMyConfig()).
 		Attach(fairing.NewGlobalFairing()).

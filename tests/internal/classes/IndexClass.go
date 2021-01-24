@@ -9,7 +9,8 @@ import (
 )
 
 type IndexClass struct {
-	MyTest *Services.TestService `inject:"-"`
+	MyTest  *Services.TestService `inject:"-"`
+	MyTest2 *Services.TestService
 }
 
 func NewIndexClass() *IndexClass {
@@ -24,6 +25,7 @@ func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
 	return NewDataModel(101, "wfew")
 }
 func (this *IndexClass) TestUsers(ctx *gin.Context) goft.Query {
+	this.MyTest2.Naming.ShowName()
 	return goft.SimpleQuery("select * from users").WithMapping(map[string]string{
 		"user_name": "uname",
 	}).WithKey("result")
@@ -33,6 +35,7 @@ func (this *IndexClass) TestUserDetail(ctx *gin.Context) goft.Json {
 		WithArgs(ctx.Param("id")).WithMapping(map[string]string{
 		"usr": "user",
 	}).WithFirst().WithKey("result").Get()
+
 	fmt.Printf("%T", ret.(gin.H)["result"].(map[string]interface{}))
 	return ret
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/shenyisyn/goft-gin/tests/internal/Services"
 	"log"
+	"time"
 )
 
 type MyConfig struct {
@@ -26,5 +27,6 @@ func (this *MyConfig) GormDB() *gorm.DB {
 	}
 	db.DB().SetMaxIdleConns(5)
 	db.DB().SetMaxOpenConns(10)
+	db.DB().SetConnMaxLifetime(time.Second * 30)
 	return db
 }
