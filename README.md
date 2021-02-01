@@ -2,7 +2,7 @@
 * 在web框架gin的基础上做的脚手架
 
 ## 安装
-go get -u github.com/shenyisyn/goft-gin@v0.4.5
+go get -u github.com/shenyisyn/goft-gin@v0.4.6
 
 ## 功能说明
  控制器、简易依赖注入、中间件、表达式、任务组件等。

@@ -11,6 +11,7 @@ import (
 type IndexClass struct {
 	MyTest  *Services.TestService `inject:"-"`
 	MyTest2 *Services.TestService
+	Age     *goft.Value `prefix:"user.age"`
 }
 
 func NewIndexClass() *IndexClass {
@@ -21,7 +22,8 @@ func (this *IndexClass) GetIndex(ctx *gin.Context) string {
 	return "IndexClass"
 }
 func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
-	fmt.Println("name is", ctx.PostForm("name"))
+	//fmt.Println("name is", ctx.PostForm("name"))
+	fmt.Println(this.Age)
 	return NewDataModel(101, "wfew")
 }
 func (this *IndexClass) TestUsers(ctx *gin.Context) goft.Query {
@@ -45,7 +47,7 @@ func (this *IndexClass) Build(goft *goft.Goft) {
 		this.GetIndex, fairing.NewIndexFairing()).
 		Handle("GET", "/users", this.TestUsers).
 		Handle("GET", "/users/:id", this.TestUserDetail).
-		Handle("POST", "/test", this.Test)
+		Handle("POST,OPTIONS", "/test", this.Test)
 }
 func (this *IndexClass) Name() string {
 	return "IndexClass"

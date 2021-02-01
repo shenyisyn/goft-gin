@@ -55,8 +55,12 @@ func (this *Goft) Launch() {
 }
 func (this *Goft) Handle(httpMethod, relativePath string, handler interface{}) *Goft {
 	if h := Convert(handler); h != nil {
-		getInnerRouter().addRoute(httpMethod, this.getPath(relativePath), h) // for future
-		this.g.Handle(httpMethod, relativePath, h)
+		methods := strings.Split(httpMethod, ",")
+		for _, method := range methods {
+			getInnerRouter().addRoute(method, this.getPath(relativePath), h) // for future
+			this.g.Handle(method, relativePath, h)
+		}
+
 	}
 	return this
 }
@@ -71,8 +75,12 @@ func (this *Goft) getPath(relativePath string) string {
 }
 func (this *Goft) HandleWithFairing(httpMethod, relativePath string, handler interface{}, fairings ...Fairing) *Goft {
 	if h := Convert(handler); h != nil {
-		getInnerRouter().addRoute(httpMethod, this.getPath(relativePath), fairings) //for future
-		this.g.Handle(httpMethod, relativePath, h)
+		methods := strings.Split(httpMethod, ",")
+		for _, method := range methods {
+			getInnerRouter().addRoute(method, this.getPath(relativePath), fairings) //for future
+			this.g.Handle(method, relativePath, h)
+		}
+
 	}
 	return this
 }

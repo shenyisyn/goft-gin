@@ -1,0 +1,6 @@
+server:
+  port: 8080
+
+config:
+ user:
+  age: 19
