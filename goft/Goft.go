@@ -31,11 +31,14 @@ type Goft struct {
 	currentGroup string // temp-var for group string
 }
 
-func Ignite() *Goft {
+func Ignite(ginMiddlewares ...gin.HandlerFunc) *Goft {
 	g := &Goft{Engine: gin.New(),
 		exprData: map[string]interface{}{},
 	}
 	g.Use(ErrorHandler()) //强迫加载的异常处理中间件
+	for _, handler := range ginMiddlewares {
+		g.Use(handler)
+	}
 	config := InitConfig()
 	Injector.BeanFactory.Set(config) // add global into (new)BeanFactory
 	Injector.BeanFactory.Set(NewGPAUtil())

@@ -47,7 +47,7 @@ func (this *IndexClass) Build(goft *goft.Goft) {
 		this.GetIndex, fairing.NewIndexFairing()).
 		Handle("GET", "/users", this.TestUsers).
 		Handle("GET", "/users/:id", this.TestUserDetail).
-		Handle("POST,OPTIONS", "/test", this.Test)
+		Handle("POST", "/test", this.Test)
 }
 func (this *IndexClass) Name() string {
 	return "IndexClass"
