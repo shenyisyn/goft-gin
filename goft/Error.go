@@ -39,16 +39,20 @@ func ErrorHandler() gin.HandlerFunc {
 		defer func() {
 			if e := recover(); e != nil {
 				if os.Getenv("GIN_MODE") != "release" {
-					log.Println(panicTrace(20))
+					log.Println(panicTrace(10))
 				}
-
 				status := 400 //default status==400
 				if value, exists := context.Get(HTTP_STATUS); exists {
 					if v, ok := value.(int); ok {
 						status = v
 					}
 				}
-				context.AbortWithStatusJSON(status, gin.H{"error": e})
+				if strE, ok := e.(string); ok {
+					context.AbortWithStatusJSON(status, gin.H{"error": strE})
+				} else {
+					context.AbortWithStatusJSON(status, e)
+				}
+
 			}
 		}()
 		context.Next()
