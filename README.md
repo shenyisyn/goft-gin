@@ -2,7 +2,7 @@
 * 在web框架gin的基础上做的脚手架
 
 ## 安装
-go get -u github.com/shenyisyn/goft-gin@v0.4.8
+go get -u github.com/shenyisyn/goft-gin@v0.4.9
 
 ## 文档在此
 [https://65480539.gitbook.io/goft/](https://65480539.gitbook.io/goft/)

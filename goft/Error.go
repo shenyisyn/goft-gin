@@ -50,7 +50,12 @@ func ErrorHandler() gin.HandlerFunc {
 				if strE, ok := e.(string); ok {
 					context.AbortWithStatusJSON(status, gin.H{"error": strE})
 				} else {
-					context.AbortWithStatusJSON(status, e)
+					if pe, ok := e.(error); ok {
+						context.AbortWithStatusJSON(status, gin.H{"error": pe.Error()})
+					} else {
+						context.AbortWithStatusJSON(status, e)
+					}
+
 				}
 
 			}

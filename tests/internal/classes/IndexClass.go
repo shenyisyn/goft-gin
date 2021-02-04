@@ -16,8 +16,8 @@ type MyError struct {
 func NewMyError(code int, message string) *MyError {
 	return &MyError{Code: code, Message: message}
 }
-func (this *MyError) Error() string {
-	return fmt.Sprintf("错误code是:%d,消息是:%s", this.Code, this.Message)
+func (*MyError) Name() string {
+	return "myerror"
 }
 
 type IndexClass struct {
@@ -36,9 +36,10 @@ func (this *IndexClass) GetIndex(ctx *gin.Context) string {
 }
 func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
 	//fmt.Println("name is", ctx.PostForm("name"))
-	ctx.Set(goft.HTTP_STATUS, 503)
-	panic(NewMyError(1800, "oh shit"))
 
+	//ctx.Set(goft.HTTP_STATUS, 503)
+	panic(NewMyError(1800, "oh shit"))
+	//fmt.Println(this.Age.String())
 	return NewDataModel(101, "wfew")
 }
 func (this *IndexClass) TestUsers(ctx *gin.Context) goft.Query {

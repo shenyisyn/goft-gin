@@ -25,9 +25,19 @@ func cros() gin.HandlerFunc {
 
 	}
 }
+func errorFunc() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if e := recover(); e != nil {
+				c.AbortWithStatusJSON(400, gin.H{"sss": e})
+			}
+		}()
+		c.Next()
+	}
+}
 func main() {
 	//Ignite方法 支持 配置原始Gin 中间件，全局的
-	goft.Ignite(cros()).
+	goft.Ignite(cros(), errorFunc()).
 		Config(Configuration.NewMyConfig()).
 		Attach(fairing.NewGlobalFairing()).
 		Mount("", classes.NewIndexClass()). //控制器，挂载到v1
