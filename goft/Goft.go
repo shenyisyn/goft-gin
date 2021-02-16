@@ -14,6 +14,7 @@ type Bean interface {
 	Name() string
 }
 
+var Empty = &struct{}{}
 var innerRouter *GoftTree // inner tree node . backup httpmethod and path
 var innerRouter_once sync.Once
 
@@ -40,6 +41,7 @@ func Ignite(ginMiddlewares ...gin.HandlerFunc) *Goft {
 		g.Use(handler)
 	}
 	config := InitConfig()
+	Injector.BeanFactory.Set(g)      // inject self
 	Injector.BeanFactory.Set(config) // add global into (new)BeanFactory
 	Injector.BeanFactory.Set(NewGPAUtil())
 	if config.Server.Html != "" {

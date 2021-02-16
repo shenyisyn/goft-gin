@@ -16,6 +16,7 @@ func get_responder_list() []Responder {
 			(ViewResponder)(nil),
 			(SqlResponder)(nil),
 			(SqlQueryResponder)(nil),
+			(VoidResponder)(nil),
 		}
 	})
 	return responderList
@@ -76,6 +77,15 @@ func (this SqlResponder) RespondTo() gin.HandlerFunc {
 			panic(err)
 		}
 		context.JSON(200, ret)
+	}
+}
+
+type Void struct{}
+type VoidResponder func(ctx *gin.Context) Void
+
+func (this VoidResponder) RespondTo() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		getFairingHandler().handlerFairing(this, context)
 	}
 }
 

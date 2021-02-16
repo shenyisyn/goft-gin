@@ -34,6 +34,10 @@ func (this *IndexClass) GetIndex(ctx *gin.Context) string {
 	this.MyTest.Naming.ShowName()
 	return "IndexClass"
 }
+func (this *IndexClass) TestA(c *gin.Context) goft.Json {
+
+	return gin.H{"message": "testa"}
+}
 func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
 	//fmt.Println("name is", ctx.PostForm("name"))
 
@@ -43,7 +47,7 @@ func (this *IndexClass) Test(ctx *gin.Context) goft.Json {
 	return NewDataModel(101, "wfew")
 }
 func (this *IndexClass) TestUsers(ctx *gin.Context) goft.Query {
-	this.MyTest2.Naming.ShowName()
+
 	return goft.SimpleQuery("select * from users").WithMapping(map[string]string{
 		"user_name": "uname",
 	}).WithKey("result")
@@ -57,7 +61,10 @@ func (this *IndexClass) TestUserDetail(ctx *gin.Context) goft.Json {
 	fmt.Printf("%T", ret.(gin.H)["result"].(map[string]interface{}))
 	return ret
 }
-
+func (this *IndexClass) IndexVoid(c *gin.Context) (void goft.Void) {
+	c.JSON(200, gin.H{"message": "void"})
+	return
+}
 func (this *IndexClass) Build(goft *goft.Goft) {
 	goft.HandleWithFairing("GET", "/",
 		this.GetIndex, fairing.NewIndexFairing()).

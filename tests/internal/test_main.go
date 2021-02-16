@@ -29,7 +29,7 @@ func errorFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if e := recover(); e != nil {
-				c.AbortWithStatusJSON(400, gin.H{"sss": e})
+				c.AbortWithStatusJSON(400, gin.H{"my": e})
 			}
 		}()
 		c.Next()
@@ -41,5 +41,6 @@ func main() {
 		Config(Configuration.NewMyConfig()).
 		Attach(fairing.NewGlobalFairing()).
 		Mount("", classes.NewIndexClass()). //控制器，挂载到v1
+		Config(Configuration.NewRouterConfig()).
 		Launch()
 }

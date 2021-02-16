@@ -76,6 +76,10 @@ func (this *FairingHandler) handlerFairing(responder Responder, ctx *gin.Context
 	if s4, ok := responder.(SqlQueryResponder); ok {
 		ret = s4(ctx)
 	}
+	if s5, ok := responder.(VoidResponder); ok {
+		s5(ctx)
+		ret = struct{}{}
+	}
 	// exec route-level middleware
 	if innerFairingHandler != nil {
 		ret = innerFairingHandler.after(ctx, ret)
