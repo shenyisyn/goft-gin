@@ -81,6 +81,9 @@ func (this *Goft) getPath(relativePath string) string {
 func (this *Goft) HandleWithFairing(httpMethod, relativePath string, handler interface{}, fairings ...Fairing) *Goft {
 	if h := Convert(handler); h != nil {
 		methods := strings.Split(httpMethod, ",")
+		for _, f := range fairings {
+			Injector.BeanFactory.Apply(f) // set IoC appyly for fairings--- add by shenyi 2020-6-17
+		}
 		for _, method := range methods {
 			getInnerRouter().addRoute(method, this.getPath(relativePath), fairings) //for future
 			this.g.Handle(method, relativePath, h)
