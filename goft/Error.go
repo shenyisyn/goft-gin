@@ -34,6 +34,12 @@ func panicTrace(kb int) string {
 	stack = bytes.TrimRight(stack, "\n")
 	return string(stack)
 }
+func printError(err interface{}) {
+	if os.Getenv("GIN_MODE") == "release" {
+		return
+	}
+	log.Println(err)
+}
 func ErrorHandler() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		defer func() {
@@ -48,9 +54,11 @@ func ErrorHandler() gin.HandlerFunc {
 					}
 				}
 				if strE, ok := e.(string); ok {
+					printError(strE)
 					context.AbortWithStatusJSON(status, gin.H{"error": strE})
 				} else {
 					if pe, ok := e.(error); ok {
+						printError(pe.Error())
 						context.AbortWithStatusJSON(status, gin.H{"error": pe.Error()})
 					} else {
 						context.AbortWithStatusJSON(status, e)
