@@ -2,15 +2,15 @@
 * 在web框架gin的基础上做的脚手架
 
 ## 安装
-go get -u github.com/shenyisyn/goft-gin@v0.5.1
+go get -u github.com/shenyisyn/goft-gin@v0.5.2
 
 ## 文档在此
-[https://65480539.gitbook.io/goft/](https://65480539.gitbook.io/goft/)
+[https://www.yuque.com/jtthink/xrb1ph](https://www.yuque.com/jtthink/xrb1ph)
 
 ## 功能说明
  控制器、简易依赖注入、中间件、表达式、任务组件等。
  
- 后续功能正在发布中,因此**可能有较大改动**
+ 后续功能正在发布中, 
 ## 使用视频(不定期更新)
 ### 第一章：控制器
 * [第1讲:控制器的使用：返回String和JSON](http://www.jtthink.com/course/play/2784)
