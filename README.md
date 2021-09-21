@@ -2,7 +2,7 @@
 * 在web框架gin的基础上做的脚手架
 
 ## 安装
-go get -u github.com/shenyisyn/goft-gin@v0.5.2
+go get -u github.com/shenyisyn/goft-gin@v0.5.3
 
 ## 文档在此
 [https://www.yuque.com/jtthink/xrb1ph](https://www.yuque.com/jtthink/xrb1ph)
