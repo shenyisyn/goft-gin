@@ -58,6 +58,12 @@ func (this *Goft) Launch() {
 	getCronTask().Start()
 	this.Run(fmt.Sprintf(":%d", port))
 }
+func (this *Goft) LaunchWithPort(port int) {
+
+	this.applyAll()
+	getCronTask().Start()
+	this.Run(fmt.Sprintf(":%d", port))
+}
 func (this *Goft) Handle(httpMethod, relativePath string, handler interface{}) *Goft {
 	if h := Convert(handler); h != nil {
 		methods := strings.Split(httpMethod, ",")

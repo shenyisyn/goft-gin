@@ -1,6 +1,6 @@
 module github.com/shenyisyn/goft-gin
 
-go 1.14
+go 1.15
 
 require (
 	github.com/antlr/antlr4 v0.0.0-20201020194047-0a7eaede42b0 // indirect
