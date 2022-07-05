@@ -10,7 +10,7 @@ go get -u github.com/shenyisyn/goft-gin@v0.5.3
 ## 功能说明
  控制器、简易依赖注入、中间件、表达式、任务组件等。
  
- 后续功能正在发布中, 
+ 后续功能正在发布中.
 ## 使用视频(不定期更新)
 ### 第一章：控制器
 * [第1讲:控制器的使用：返回String和JSON](http://www.jtthink.com/course/play/2784)
