@@ -16,20 +16,20 @@ import (
 	"text/template"
 )
 
-//读取配置文件
+// 读取配置文件
 func LoadConfigFile() []byte {
 	//dir, _ := os.Executable()
 	dir, _ := os.Getwd()
 	file := dir + "/application.yaml"
 	b, err := ioutil.ReadFile(file)
 	if err != nil {
-		log.Println(err)
+		//	log.Println(err)
 		return nil
 	}
 	return b
 }
 
-//根据 函数生成 funcMap   ast 语法树
+// 根据 函数生成 funcMap   ast 语法树
 func GenTplFunc(path string) {
 	path = strings.Replace(path, "\\", "/", -1)
 	pList := strings.Split(path, "/")
